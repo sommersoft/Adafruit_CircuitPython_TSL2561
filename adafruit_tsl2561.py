@@ -26,6 +26,26 @@
 CircuitPython driver for TSL2561 Light Sensor.
 
 * Author(s): Carter Nelson
+
+Implementation Notes
+--------------------
+
+**Hardware:**
+
+* Adafruit `TSL2561 Digital Luminosity/Lux/Light Sensor Breakout
+  <https://www.adafruit.com/product/439>`_ (Product ID: 439)
+
+* Adafruit `STEMMA - TSL2561 Digital Lux / Light Sensor
+  <https://www.adafruit.com/product/3611>`_ (Product ID: 3611)
+
+* Adafruit `Flora Lux Sensor - TSL2561 Light Sensor
+  <https://www.adafruit.com/product/1246>`_ (Product ID: 1246)
+
+**Software and Dependencies:**
+
+* Adafruit CircuitPython firmware for the ESP8622 and M0-based boards:
+  https://github.com/adafruit/circuitpython/releases
+* Adafruit's Bus Device library: https://github.com/adafruit/Adafruit_CircuitPython_BusDevice
 """
 from adafruit_bus_device.i2c_device import I2CDevice
 from micropython import const
@@ -174,6 +194,8 @@ class TSL2561():
         self._write_control_register(_CONTROL_POWEROFF)
 
     def _read_register(self, reg, count=1):
+        # pylint: disable=no-else-return
+        # Disable should be removed when refactor can be tested
         self.buf[0] = _COMMAND_BIT | reg
         if count == 2:
             self.buf[0] |= _WORD_BIT
